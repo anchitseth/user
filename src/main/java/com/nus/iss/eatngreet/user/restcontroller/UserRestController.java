@@ -1,6 +1,6 @@
 package com.nus.iss.eatngreet.user.restcontroller;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,13 +34,18 @@ public class UserRestController {
 	}
 	
 	@PostMapping(value = "/get-users-info")
-	public DataResponseDTO getUsersAddressAndName(@RequestBody HashMap<String, Set<String>> emailIdObj) throws Exception {
+	public DataResponseDTO getUsersAddressAndName(@RequestBody Map<String, Set<String>> emailIdObj) throws Exception {
 		return userService.getUserAddressAndNameFromEmailIds(emailIdObj);
 	}
 	
 	@PostMapping(value = "/get-user-info")
 	public DataResponseDTO getUserInfoFromHeader(HttpServletRequest request) throws Exception {
 		return userService.getUserInfoFromHeader(request);
+	}
+	
+	@PostMapping(value = "/complete-info")
+	public DataResponseDTO getCompleteUserInfoFromHeader(HttpServletRequest request) throws Exception {
+		return userService.getCompleteUserInfoFromHeader(request);
 	}
 
 	@GetMapping("/success")
@@ -59,30 +64,8 @@ public class UserRestController {
 	
 	@GetMapping("/health-check")
 	public String healthCheck() {
-		return "User microservice is up and running.";
+		return "User microservice is up and running. :)";
 	}
 
-//	@GetMapping("/all")
-//	public String all() {
-//		return "This url is accessible to all.";
-//	}
-//
-//	@PreAuthorize("hasAnyRole('USER')")
-//	@GetMapping("/user")
-//	public String userAccess() {
-//		return "This url is accessible users.";
-//	}
-//
-//	@PreAuthorize("hasAnyRole('ADMIN')")
-//	@GetMapping("/admin")
-//	public String adminAccess() {
-//		return "This url is accessible only to admin.";
-//	}
-//
-//	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-//	@GetMapping("/both")
-//	public String bothAccess() {
-//		return "This url is accessible to user and admin.";
-//	}
 }
 

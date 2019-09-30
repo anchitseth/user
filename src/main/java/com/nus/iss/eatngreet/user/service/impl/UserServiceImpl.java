@@ -113,33 +113,8 @@ public class UserServiceImpl implements UserService {
 		return response;
 	}
 
-//	@Override
-//	public CommonResponseDTO userSignin(UserSigninRequestDTO userReq) {
-//		CommonResponseDTO response = new CommonResponseDTO();
-//		if (!Util.isValidEmail(userReq.getEmailId())) {
-//			ResponseUtil.prepareResponse(response, "Invalid email id.", "FAILURE", "Incorrect Email-id.", false);
-//		} else {
-//			Optional<UserEntity> user = userRepository.findByEmail(userReq.getEmailId());
-//			if (user.isEmpty()) {
-//				ResponseUtil.prepareResponse(response, "No record exists with the given email id.", "FAILURE",
-//						"Unregistered Email-id.", false);
-//			} else {
-////				encryptedPassword = 
-//			}
-//		}
-//		return response;
-//	}
-
-//	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		if (auth != null) {
-//			new SecurityContextLogoutHandler().logout(request, response, auth);
-//		}
-//		return "redirect:/login";
-//	}
-
 	@Override
-	public DataResponseDTO getUserAddressAndNameFromEmailIds(HashMap<String, Set<String>> emailIdObj) {
+	public DataResponseDTO getUserAddressAndNameFromEmailIds(Map<String, Set<String>> emailIdObj) {
 		DataResponseDTO response = new DataResponseDTO();
 		HashMap<Object, Object> data = new HashMap<>();
 		Set<String> emailIds = emailIdObj.get("emailIds");
@@ -179,14 +154,12 @@ public class UserServiceImpl implements UserService {
 	public DataResponseDTO getUserInfoFromHeader(HttpServletRequest request) {
 		DataResponseDTO response = new DataResponseDTO();
 		try {
-			System.out.println("authTokennnn");
 			String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
-			System.out.println("authToken" + authToken);
 			String decryptedEmail = new String(Base64.getDecoder().decode(authToken)).split(":")[0];
 			if (Util.isValidEmail(decryptedEmail)) {
 				Optional<UserEntity> userObj = userRepository.findByEmailId(decryptedEmail);
 				if (userObj.isPresent()) {
-					Map<String, String> data = new HashMap<String, String>();
+					Map<String, String> data = new HashMap<>();
 					data.put("firstName", userObj.get().getFirstName());
 					data.put("lastName", userObj.get().getLastName());
 					response.setData(data);
@@ -207,6 +180,36 @@ public class UserServiceImpl implements UserService {
 		}
 		return response;
 
+	}
+
+	@Override
+	public DataResponseDTO getCompleteUserInfoFromHeader(HttpServletRequest request) {
+		DataResponseDTO response = new DataResponseDTO();
+		try {
+			String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
+			String decryptedEmail = new String(Base64.getDecoder().decode(authToken)).split(":")[0];
+			if (Util.isValidEmail(decryptedEmail)) {
+				Optional<UserEntity> userObj = userRepository.findByEmailId(decryptedEmail);
+				if (userObj.isPresent()) {
+					Map<String, Object> data = new HashMap<>();
+					data.put("info", userObj.get());
+					response.setData(data);
+					ResponseUtil.prepareResponse(response, "Successfully fetched user info.", "SUCCESS",
+							"Successfully fetched user info.", true);
+				} else {
+					ResponseUtil.prepareResponse(response, "Please try again.", "FAILURE",
+							"No record found for email id: " + decryptedEmail, false);
+				}
+			} else {
+				ResponseUtil.prepareResponse(response, "Unable to fetch valid email id from headers.", "FAILURE",
+						"Unable to fetch valid email id from headers.", false);
+			}
+		} catch (Exception e) {
+			ResponseUtil.prepareResponse(response, "Some problem occurred, please try again.", "FAILURE",
+					"Exception occurred while trying fetch user info from headers. Exception msg: " + e.getMessage(),
+					false);
+		}
+		return response;
 	}
 
 }

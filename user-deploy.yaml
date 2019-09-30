@@ -10,7 +10,7 @@ spec:
         app: usermicroservice
     spec:
       containers:
-      - image: d3334/userms:3
+      - image: d3334/userms:4
         name: usermicroservice
         resources:
           limits:
