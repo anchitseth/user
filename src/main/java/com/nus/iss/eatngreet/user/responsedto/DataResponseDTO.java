@@ -3,7 +3,7 @@ package com.nus.iss.eatngreet.user.responsedto;
 import java.util.Map;
 
 @SuppressWarnings("rawtypes")
-public class DataResponseDTO extends CommonResponseDTO {
+public class DataResponseDto extends CommonResponseDto {
 
 	private Map data;
 

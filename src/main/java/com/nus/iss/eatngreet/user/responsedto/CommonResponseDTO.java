@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @SuppressWarnings("rawtypes")
 @JsonInclude(Include.NON_NULL)
-public class CommonResponseDTO {
+public class CommonResponseDto {
 
 	private String status;
 	private String message;
@@ -20,7 +20,7 @@ public class CommonResponseDTO {
 	private Boolean success;
 	private Map data;
 
-	public CommonResponseDTO(String status, String message, String info, Boolean success) {
+	public CommonResponseDto(String status, String message, String info, Boolean success) {
 		this.status = status;
 		this.message = message;
 		this.info = info;

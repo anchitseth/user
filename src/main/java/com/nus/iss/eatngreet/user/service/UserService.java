@@ -6,17 +6,17 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import com.nus.iss.eatngreet.user.requestdto.UserSignupRequestDTO;
-import com.nus.iss.eatngreet.user.responsedto.CommonResponseDTO;
-import com.nus.iss.eatngreet.user.responsedto.DataResponseDTO;
+import com.nus.iss.eatngreet.user.responsedto.CommonResponseDto;
+import com.nus.iss.eatngreet.user.responsedto.DataResponseDto;
 
 public interface UserService {
 
-	public CommonResponseDTO userSignup(UserSignupRequestDTO user);
+	public CommonResponseDto userSignup(UserSignupRequestDTO user);
 
-	public DataResponseDTO getUserAddressAndNameFromEmailIds(Map<String, Set<String>> emailIdObj);
+	public DataResponseDto getUserAddressAndNameFromEmailIds(Map<String, Set<String>> emailIdObj);
 
-	public DataResponseDTO getUserInfoFromHeader(HttpServletRequest request);
+	public DataResponseDto getUserInfoFromHeader(HttpServletRequest request);
 
-	public DataResponseDTO getCompleteUserInfoFromHeader(HttpServletRequest request);
+	public DataResponseDto getCompleteUserInfoFromHeader(HttpServletRequest request);
 
 }
