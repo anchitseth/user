@@ -17,7 +17,7 @@ public class CommonResponseDto {
 	private String status;
 	private String message;
 	private String info;
-	private Boolean success;
+	private boolean success;
 	private Map data;
 
 	public CommonResponseDto(String status, String message, String info, Boolean success) {

@@ -1,6 +1,9 @@
 package com.nus.iss.eatngreet.user.util;
 
+import java.util.Base64;
 import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class Util {
 
@@ -8,16 +11,8 @@ public class Util {
 		return (str == null || str.trim().length() == 0);
 	}
 
-	public static boolean isStringOnlyAlphabets(String str) {
-		return ((!str.equals("")) && (str != null) && (str.matches("^[a-zA-Z]*$")));
-	}
-
 	public static boolean isValidSGPhoneNo(String phoneNo) {
 		return !phoneNo.equals("") && phoneNo != null && phoneNo.matches("^[3689]\\d{7}$");
-	}
-
-	public static boolean isValidINPhoneNo(String phoneNo) {
-		return !phoneNo.equals("") && phoneNo != null && phoneNo.matches("^[789]\\d{9}$");
 	}
 
 	public static boolean isValidEmail(String email) {
@@ -30,23 +25,13 @@ public class Util {
 		return pat.matcher(email).matches();
 	}
 
-	public static boolean isNumeric(String strNum) {
-		try {
-			Double.parseDouble(strNum);
-		} catch (NumberFormatException | NullPointerException nfe) {
-			return false;
-		}
-		return true;
+	public static String getDecryptedEmail(HttpServletRequest request) {
+		String authToken = request.getHeader(Constants.AUTHORIZATION_HEADER_NAME).substring("Basic".length()).trim();
+		return new String(Base64.getDecoder().decode(authToken)).split(":")[0];
 	}
 
-	public static String appendISDCodeToPhoneNo(String phoneNo) {
-		if (phoneNo.matches("^[789]\\d{9}$")) {
-			return Constants.INDIA_ISD_CODE + "-" + phoneNo;
-		} else if (phoneNo.matches("^[3689]\\d{7}$")) {
-			return Constants.SINGAPORE_ISD_CODE + "-" + phoneNo;
-		} else {
-			return "";
-		}
+	private Util() {
+
 	}
 
 }
